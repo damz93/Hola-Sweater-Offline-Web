@@ -48,12 +48,12 @@
       <h3 align='center' style="background-color:#1d7bb6;color:#FFFFee">- H O L A S W E A T E R -</h3>
       <div class='container'>
 		<a href="form-diskon" style="color:#FFFFFe"> <button type="button" class="btn btn-info">  [ Kembali ke Data Diskon ]</button></a><br>
-      <form method="post" action="simpan-diskon.php" onsubmit="return confirm('Yakin ingin simpan?');">
+      <form method="post" action="simpan-diskon.php" autocomplete="off" onsubmit="return confirm('Yakin ingin simpan?');">
          <div class="table-responsive">
             <div class="form-group">
                <div class="container">
                   <br>
-                  <table border="0" class="table" cellpadding="2" cellspacing="2" align=center>
+                  <table style="width:75%" border="0" class="table" cellpadding="2" cellspacing="2" align=center>
                      <div class="form-group">
                         <tr>
                            <th>Kode Diskon</th>
@@ -63,25 +63,29 @@
                            <th>Notes</th>
                            <td colspan="3"> <input id="notes"  placeholder="NOTES" class="form-control form-control-sm" maxlength="30" type="text" name="NOTES">  </td>
                         </tr>
-                        <tr>
+                        <tr hidden>
                            <th>Tanggal Awal</th>
                            <td colspan="3"><input placeholder="TANGGAL AWAL(dd/MM/yyyy)" class="form-control form-control-sm datepicker" maxlength="30" type="text" name="TGL_AWAL">  </td>
                         </tr>
-                        <tr>
+                        <tr hidden>
                            <th>Tanggal Akhir</th>
                            <td colspan="3"><input id="TGL_AKHIR"  placeholder="TANGGAL AKHIR(dd/MM/yyyy)" class="form-control form-control-sm datepicker" maxlength="30" type="text" name="TGL_AKHIR"> </td>
                         </tr>
                         <tr>
-                           <th width="30%">Nominal</th>
+                           <th width="30%">Nominal Potongan</th>
                            <td width="1%">Rp</td>
                            <td align="left" width="60%" colspan="2"><input type="text" id="nominal" placeholder="0" class="form-control form-control-sm mata-uang" onkeyup="inputTerbilang();" name="NOMINAL" >
                         </tr>
                         <tr>
+                           <th width="30%">Minimal Pembelian Sweater</th>
+                           <td align="left" width="60%" colspan="3"><input type="text" id="minimal" placeholder="0" class="form-control form-control-sm mata-uang" onkeyup="inputTerbilang();" name="MINIMAL" >
+                        </tr>
+                        <tr hidden>
                            <th>Persen</th>
                            <td colspan="2"><input maxlength="3" size="30" type="text" id="nominal" placeholder="0" class="mata-uang form-control form-control-sm" onkeyup="inputTerbilang();" name="PERSEN" ></td>
                            <td align="left">% </td>
                         </tr>
-                        <tr>
+                        <tr hidden>
                            <th>Status</th>
                            <td colspan="3">
                               <select name="STATUSX" id="STATUSX" class="form-control form-control-sm">

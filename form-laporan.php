@@ -102,15 +102,41 @@
                                  <button onclick="" type="submit" class="btn btn-info" name="tampil_buland22">Tampilkan</button>
                               </div>
                               <br>
-							   <h4><a data-toggle="collapse" data-target="#demo23" class="collapsible-btn btn-outline-info btn-lg">Transaksi Tahunan</a></h4>
-                              <div id="demo23" class="collapse">
+							   <h4 hidden><a hidden data-toggle="collapse" data-target="#demo23" class="collapsible-btn btn-outline-info btn-lg">Transaksi Tahunan</a></h4>
+                              <div hidden id="demo23" class="collapse">
                                   <input type="text" class="form-control form-control-sm datepicker" placeholder="Tahun Awal"  id="exampled11" name="cek_tahund22">
                                  <input type="text" class="form-control form-control-sm datepicker" placeholder="Tahun Akhir"  id="exampled11d" name="cek_tahund22d">
                                  <button onclick="" type="submit" class="btn btn-info" name="tampil_tahund22">Tampilkan</button>
                               </div>                                                                                             
-                                 <br><br><button onclick="" type="submit" class="btn btn-info" name="tampil_semua22">Tampilkan Semua</button>
+                                 <br><br><button hidden onclick="" type="submit" class="btn btn-info" name="tampil_semua22">Tampilkan Semua</button>
                               </div>
                            </form> 
+                     </td>                   
+                     <td style="width:20%" valign="center" align="center">
+                        <a href="#">
+                        <img data-toggle="collapse" data-target="#demo22x" class="collapsible" src="img/report.png" style="display: block; margin: auto;"/></a>
+                        <figcaption class="figure-caption" align='center'>
+                           <b>
+                              <h4>Laporan Transaksi Khusus</h4>
+                           </b>
+                        </figcaption>
+                           <form autocomplete="off" method="post" action="laporan-transaksi-khusus">                              
+                              <div id="demo22x" class="collapse">							  
+							  <br>
+                              <h4><a data-toggle="collapse" data-target="#demo21xx" class="collapsible-btn btn-outline-info btn-lg">Transaksi Harian</a></h4>
+                              <div id="demo21xx" class="collapse">
+                                 <input class="form-control form-control-sm datepicker" type="text" placeholder="Tanggal Awal"  id="exampled9xx" name="cek_tanggald22">	
+                                  <input type="text" class="form-control form-control-sm datepicker" placeholder="Tanggal Akhir"  id="exampled9dxx" name="cek_tanggald22d">
+                                 <button onclick="" type="submit" class="btn btn-info" name="tampil_tanggald22">Tampilkan</button>
+							  </div>
+                              <br>
+							  <h4><a data-toggle="collapse" data-target="#demo22xx" class="collapsible-btn btn-outline-info btn-lg">Transaksi Bulanan</a></h4>
+                              <div id="demo22xx" class="collapse">
+                                <input type="text" class="form-control form-control-sm datepicker" placeholder="Bulan Awal"  id="exampled10xx" name="cek_buland22">
+                                  <input type="text" class="form-control form-control-sm datepicker" placeholder="Bulan Akhir"  id="exampled10dxx" name="cek_buland22d">
+                                 <button onclick="" type="submit" class="btn btn-info" name="tampil_buland22">Tampilkan</button>
+                              </div>
+                              <br>
                      </td>                   
                      <td style="width:20%" valign="center" align="center">
                         <a href="#">
@@ -137,7 +163,7 @@
                                  <button onclick="" type="submit" class="btn btn-info" name="tampil_bulan2">Tampilkan</button>
                               </div>
                               <br>
-                              <h4><a data-toggle="collapse" data-target="#demo43" class="collapsible-btn btn-outline-info btn-lg">Pengeluaran Tahunan</a></h4>
+                              <h4 hidden><a hidden data-toggle="collapse" data-target="#demo43" class="collapsible-btn btn-outline-info btn-lg">Pengeluaran Tahunan</a></h4>
                               <div id="demo43" class="collapse">
                                  <input type="text" placeholder="Tahun Awal" class="form-control form-control-sm datepicker" id="example4" name="cek_tahun2">
                                  <input type="text" placeholder="Tahun Akhir" class="form-control form-control-sm datepicker" id="example4d" name="cek_tahun2d">
@@ -171,7 +197,7 @@
                                  <button onclick="" type="submit" class="btn btn-info" name="tampil_bulan3">Tampilkan</button>
                               </div>
                               <br>
-                              <h4><a data-toggle="collapse" data-target="#demo52" class="collapsible-btn btn-outline-info btn-lg">Summary Tahunan</a></h4>
+                              <h4 hidden><a hidden data-toggle="collapse" data-target="#demo52" class="collapsible-btn btn-outline-info btn-lg">Summary Tahunan</a></h4>
                               <div id="demo52" class="collapse">
                                  <input type="text" placeholder="Tahun Awal" class="form-control form-control-sm datepicker" id="example7" name="cek_tahun3">
                                  <input type="text" placeholder="Tahun Akhir" class="form-control form-control-sm datepicker" id="example7d" name="cek_tahun3d">
@@ -499,6 +525,26 @@
       </script>
       <script type='text/javascript'>
          $(document).ready(function () {
+         $('#exampled9xx').datepicker({
+         minViewMode: 3,
+         autoclose: true,
+         format: 'yyyy-mm-dd'
+         });  
+         
+         });
+      </script>
+      <script type='text/javascript'>
+         $(document).ready(function () {
+         $('#exampled9dxx').datepicker({
+         minViewMode: 3,
+         autoclose: true,
+         format: 'yyyy-mm-dd'
+         });  
+         
+         });
+      </script>
+      <script type='text/javascript'>
+         $(document).ready(function () {
          $('#exampled10').datepicker({
          minViewMode: 1,
          autoclose: true,
@@ -510,6 +556,26 @@
       <script type='text/javascript'>
          $(document).ready(function () {
          $('#exampled10d').datepicker({
+         minViewMode: 1,
+         autoclose: true,
+         format: 'mm-yyyy'
+         });  
+         
+         });
+      </script>        
+      <script type='text/javascript'>
+         $(document).ready(function () {
+         $('#exampled10xx').datepicker({
+         minViewMode: 1,
+         autoclose: true,
+         format: 'mm-yyyy'
+         });  
+         
+         });
+      </script>
+      <script type='text/javascript'>
+         $(document).ready(function () {
+         $('#exampled10dxx').datepicker({
          minViewMode: 1,
          autoclose: true,
          format: 'mm-yyyy'

@@ -5,6 +5,8 @@
    $row        = mysqli_fetch_array($barang);
    $harga=number_format($row['HARGA'],0,",",".");
    $keterrr=$row['NOTES'];
+   $kena_p=$row['KENA'];
+   $penanda=$row['PENANDA'];
    $qty=number_format($row['QTY'],0,",",".");
    ?>
 <!DOCTYPE html>
@@ -66,6 +68,15 @@
                      <table border="0" class="table" cellpadding="2" cellspacing="2" align=center>
                         <div class="form-group">
                            <tr>
+                              <th>Penanda Barang</th>
+                              <th colspan="2">
+                                 <select onchange="autofocuss2()" autofocus class="form-control form-control-sm" name="penanda" id="penanda">                                    
+                                    <option value="BIASA" <?php if($penanda=="BIASA") echo 'selected="selected"'; ?> >Biasa</option>
+                                    <option value="KHUSUS" <?php if($penanda=="KHUSUS") echo 'selected="selected"'; ?> >Khusus</option>
+                                 </select>
+                              </th>
+                           </tr>
+                           <tr>
                               <th>Kode Barang</th>
                               <td colspan="2"><input readonly value="<?php echo $row['KODE_BARANG'];?>" name="KODE_BARANG" class="form-control form-control-sm"></td>
                            </tr>
@@ -105,6 +116,15 @@
                               </td>
                            </tr>
 						   
+                           <tr>
+                              <th>Kena Potongan</th>
+                              <th colspan="2">
+                                 <select onchange="autofocuss2()" autofocus class="form-control form-control-sm" name="kena_p" id="kena_p">
+                                    <option value="YA" <?php if($kena_p=="YA") echo 'selected="selected"'; ?> >Ya</option>
+                                    <option value="TIDAK" <?php if($kena_p=="TIDAK") echo 'selected="selected"'; ?> >Tidak</option>
+                                 </select>
+                              </th>
+                           </tr>
                            <tr align='center'>
                               <td colspan="3"><button type="submit" value="simpan" class="btn btn-info btn-lg btn-block">Update</button></td>
                            </tr>

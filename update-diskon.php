@@ -10,17 +10,13 @@
 	$keter = "diedit oleh ".$oleh." pada tgl dan jam ".$waktu_skg;
 	$kode_diskon = $_POST['KODE_DISKON'];
 	$notes = $_POST['NOTES'];
-	$tgawal = $_POST['TGL_AWAL'];
-	$tgakhir = $_POST['TGL_AKHIR'];
-	$nominal = $_POST['NOMINAL'];
-	$persen = $_POST['PERSEN'];
-	$status = $_POST['STATUSX'];
+	$nominal = $_POST['NOMINAL'];	
 	$nominal = str_replace(".","",$nominal);
-	$persen = str_replace(".","",$persen);
-	// query SQL untuk insert data
-	$query="UPDATE t_diskon SET KETERANGAN='$keter',TGL_MULAI='$tgawal',TGL_SELESAI='$tgakhir',WAKTU='$waktu_skg',OLEH='$oleh',LAIN='$notes',NOMINAL='$nominal',PERSEN='$persen',STATUS='$status' where KODE_DISKON='$kode_diskon'";
+	$minimal = $_POST['MINIMAL'];	
+	$minimal = str_replace(".","",$minimal);
+	$query="UPDATE t_diskon SET MINIMAL='$minimal',KETERANGAN='$keter',WAKTU='$waktu_skg',OLEH='$oleh',LAIN='$notes',NOMINAL='$nominal' where KODE_DISKON='$kode_diskon'";
 	if (mysqli_query($koneksi, $query)) {
-		echo "<script>alert('data terupdate');window.location.href='form-diskon.php';</script>";		
+		echo "<script>alert('data terupdate');window.location.href='form-diskon';</script>";		
 	} else {
 		echo "Error: " . $query . "<br>" . mysqli_error($koneksi);
 	}

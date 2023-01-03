@@ -12,7 +12,9 @@
 	$jenis_barang = $_POST['JENIS_BARANG'];
 	$sizee = $_POST['SIZE'];
 	$warna = $_POST['WARNA'];
+	$kena_p = $_POST['kena_p'];
 	$qty = $_POST['QTY'];
+	$penanda = $_POST['penanda'];
 	$qty = str_replace(".","",$qty);
 	$qty2 = $_POST['QTY2'];
 	$ktrg = $_POST['KETERANGAN'];
@@ -25,11 +27,11 @@
 	if ($_SESSION['status']!="login") {
 		echo "<script>alert('Anda belum login.....');window.location.href='index.php?pesan=belum_login';</script>";
 	}
-	else if(($_SESSION['level']!="OWNER")AND($_SESSION['level']!="SPV GUDANG")) {
+	else if(($_SESSION['level']!="OWNER")AND($_SESSION['level']!="SPV KASIR")) {
 		echo "<script>alert('Anda tidak memiliki akses.....');window.location.href='javascript:history.go(-1)';</script>";
 	}
 	else {
-		$query="UPDATE t_stok SET NOTES='$ktrg', JENIS_BARANG='$jenis_barang',TGL='$tgl',WAKTU='$waktu_skg2',KETERANGAN='$keterangan',OLEH='$oleh',HARGA='$harga',QTY='$qtyhasil',WARNA='$warna',SIZE_='$sizee' where KODE_BARANG='$kode_barang'";
+		$query="UPDATE t_stok SET KENA='$kena_p',PENANDA='$penanda',NOTES='$ktrg', JENIS_BARANG='$jenis_barang',TGL='$tgl',WAKTU='$waktu_skg2',KETERANGAN='$keterangan',OLEH='$oleh',HARGA='$harga',QTY='$qtyhasil',WARNA='$warna',SIZE_='$sizee' where KODE_BARANG='$kode_barang'";
 		if (mysqli_query($koneksi, $query)) {
 				echo "<script>alert('data terupdate');window.location.href='form-stok.php';</script>";		
 			} else {

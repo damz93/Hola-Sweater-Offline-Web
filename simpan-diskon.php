@@ -9,15 +9,14 @@
 	$keterangan = "ditambah oleh ".$oleh." pada tgl dan jam ".$waktu_skg2;
 	$kode_diskon = $_POST['KODE_DISKON'];
 	$notes = $_POST['NOTES'];
-	$tgawal = $_POST['TGL_AWAL'];
-	$tgakhir = $_POST['TGL_AKHIR'];
 	$nominal = $_POST['NOMINAL'];
-	$persen = $_POST['PERSEN'];
-	$status = $_POST['STATUSX'];
+	$minimal = $_POST['MINIMAL'];
 	$nominal = str_replace(".","",$nominal);
-	$persen = str_replace(".","",$persen);
+	$minimal = str_replace(".","",$minimal);
 	// query SQL untuk insert data
-	$query="INSERT INTO t_diskon(KODE_DISKON,KETERANGAN,TGL_MULAI,TGL_SELESAI,TGL,WAKTU,OLEH,LAIN,NOMINAL,PERSEN,STATUS)VALUES('$kode_diskon','$keterangan','$tgawal','$tgakhir','$tgl','$waktu_skg2','$oleh','$notes','$nominal','$persen','$status')";
+	//$query="INSERT INTO t_diskon(KODE_DISKON,KETERANGAN,TGL_MULAI,TGL_SELESAI,TGL,WAKTU,OLEH,LAIN,NOMINAL,PERSEN,STATUS)VALUES('$kode_diskon','$keterangan','$tgawal','$tgakhir','$tgl','$waktu_skg2','$oleh','$notes','$nominal','$persen','$status')";
+	$query="INSERT INTO t_diskon(MINIMAL,KODE_DISKON,KETERANGAN,TGL,WAKTU,OLEH,NOMINAL,LAIN)VALUES('$minimal','$kode_diskon','$keterangan','$tgl','$waktu_skg2','$oleh','$nominal','$notes')";
+	
 	//mysqli_query($koneksi,$query);
 	$cekdulu= "select * from t_diskon where KODE_DISKON='$kode_diskon'";
 	$prosescek= mysqli_query($koneksi, $cekdulu);

@@ -37,16 +37,16 @@
 		</style>
 		<style type="text/css">
 			#kiri{
-			width:65%;							
-			background-color: #244062;
+			width:75%;							
+			background-color: #203972;
 			height: 100%;
 			padding: 20px;
 			float:left;
 			}
 			#kanan{
-			width:35%;
+			width:25%;
 			height: 100%;
-			background-color: #366092;
+			background-color: #203972;
 			padding: 2px;
 			float:right;
 			}
@@ -60,9 +60,13 @@
 			width:100%;
 			height: 100%;
 			overflow-x: hidden;
-			overflow-y: scroll;			
+			overflow-y: hidden;			
 			}
 		</style>
+		
+		
+		
+		
 		<script type="text/javascript">
 			$(document).ready(function(){
 				$('#go_cek').on('click',function(){
@@ -75,6 +79,7 @@
 			});
 		</script>
 		<script type="text/javascript">		
+		
 			$(document).ready(function(){
 				$('#input_list').on('click',function(){
 				//alert('kosong');
@@ -89,14 +94,12 @@
 					return false;
 				}
 				else if (nilai_stok<1) {
-					alert('Gagal menambahkan, stok kosong di system...');
-					//$('#kode_barang2').val('');
+					alert('Gagal menambahkan, stok kosong di system...');					
 					$('#kode_barang2').focus();
 					return false;
 				}
 				else if (nilai_stok<qty) {
 					alert('Gagal menambahkan, stok tidak cukup di system...');
-					//$('#kode_barang2').val('');
 					$('#kode_barang2').focus();
 					return false;
 				}
@@ -105,10 +108,9 @@
 					location.reload(true);				
 					$.ajax({
 					  method: "POST",
-					  url: "simpan-transaksi-fix.php",
+					  url: "simpan-transaksi-khusus.php",
 					  data: { kode_barang : kode_barang, qty : qty,type:"insert"},
 					  success	: function(data){
-								//	$('#divxx').load('tampil_jual.php').fadeIn("slow");
 									document.getElementById("myForm").reset();									
 								},
 								error: function(response){
@@ -120,6 +122,7 @@
 			});
 		</script>
 		<script type="text/javascript">		
+		
 			$(document).ready(function(){
 				$('#simpan_draft').on('click',function(){
 					if (confirm("Apakah yakin ingin simpan ke draft terlebih dahulu?")) {			
@@ -152,111 +155,134 @@
 			}
 			?>		
 		<div id="kiri">
-			<script type="text/javascript">
-				function auto_kode(){			   
-				var kode_barang = $("#kode_barang2").val();		
-				//alert(kode_promo);
-				var cek_diskon;	
-				//alert(kode_promo);
-				$.ajax({
-				url: 'listnama.php',
-				method: 'GET',
-				data     : 'kode_barang='+kode_barang,
-				}).success(function (data) {
-				var json = data,
-				obj = JSON.parse(json);
-				// cek_diskon = obj.nominal;
-				$('#jenis_barang').val(obj.jenis_barang);
-				$('#jenis_barang2').text(obj.jenis_barang);
-				$('#warna').val(obj.warna);
-				$('#warna2').text(obj.warna);
-				var cek_warna = (obj.warna);
-				$('#size').val(obj.size);
-				$('#size2').text(obj.size);
-				$('#harga_satuan').val(obj.harga);
-				var harganya = (obj.harga);
-				
-				//$('#harga_satuan2').text(harganya);
-				harganya = parseInt(harganya);
-				var total_x= harganya.toFixed().replace(/\B(?=(\d{3})+(?!\d))/g, ".");		
-				
-				$('#harga_satuan2').text("Rp"+total_x);					
-				//
-				$('#kuantitasxx').text("Jumlah Stok: "+obj.qty);
-				$('#kuantitasxxcek').text(+obj.qty);
-				$('#qty').val("1");			
-				var stoknya = (obj.qty); 
-				var stoknya_ = parseInt(stoknya);
-				if (stoknya <= 0){
+		
+		
+		<script type="text/javascript">
+         function auto_kode(){			   
+         var kode_barang = $("#kode_barang2").val();		
+         var detail = "";
+			//alert(kode_promo);
+			 var cek_diskon;	
+			//alert(kode_promo);
+			$.ajax({
+			url: 'list-barang-khusus.php',
+			method: 'GET',
+			data     : 'kode_barang='+kode_barang,
+			}).success(function (data) {
+			 var json = data,
+			 obj = JSON.parse(json);
+			// cek_diskon = obj.nominal;
+			$('#jenis_barang').val(obj.jenis_barang);
+			$('#jenis_barang2').text(obj.jenis_barang);
+			$('#warna').val(obj.warna);
+			$('#warna2').text(obj.warna);
+			var cek_warna = (obj.warna);
+			$('#size').val(obj.size);
+			$('#size2').text(obj.size);
+			$('#harga_satuan').val(obj.harga);
+			var harganya = (obj.harga);
+			
+			//$('#harga_satuan2').text(harganya);
+			harganya = parseInt(harganya);
+			var total_x= harganya.toFixed().replace(/\B(?=(\d{3})+(?!\d))/g, ".");		
+			
+			$('#harga_satuan2').text("Rp"+total_x);			
+            detail = obj.jenis_barang + "\n" + obj.warna + "\n" + obj.size + "\n" + "Rp" + total_x;
+            //detail = detail + "\n" + obj.warna;
+			//$('#detail_barang').text("Rp"+total_x);		
+			$('#detail_barang').text(detail);
+
+			$('#kuantitasxx').text("Jumlah Stok: "+obj.qty);
+			$('#kuantitasxxcek').text(+obj.qty);
+			$('#qty').val("1");			
+			 var stoknya = (obj.qty); 
+			 var stoknya_ = parseInt(stoknya);
+			 if (stoknya <= 0){
 				// alert('stok kurang');
-				document.getElementById("kode_barang2").focus();
-				}
-				else if(warna.length==0){
-				alert('kode barang tidak ditemukan');
-				}
-				else{		
+				 document.getElementById("kode_barang2").focus();
+			 }
+			 else if(warna.length==0){
+				 alert('kode barang tidak ditemukan');
+			 }
+			 else{		
 				document.getElementById("qty").focus();
-				}
-				
-				}).autocomplete({
-				source: "listnama.php",
-				});
-				
-				}	 
-			</script>
-			<div class="sc_kiri">
-				<div class="table-responsive">
-					<div class="form-group">
-						<div class="container">
-							<div class="form-group">
+			 }
+			 
+			 }).autocomplete({
+			 source: "listnama.php",
+			});
+         
+         }	 
+      </script>
+	  <div class="sc_kiri">
+		
+		
+					<div class="table-responsive">
+						<div class="form-group">
+							<div class="container">
+								<div class="form-group">
+								
 								<form method="post" id="myForm" autocomplete="off">
 									<table border="0" class="table table-borderless" cellpadding="2" cellspacing="2" align="left">
 										<tr>
 											<th width="50%" colspan="2">
-												<label style="color:#FFFFFF;font-size:30px;">
-													Input Barang</h2>
+												<label style="color:#FFFFFF;font-size:30px;">Data Order</h2>
+                                        
 											</th>
+                                        </tr>
+                                        <tr>
 											<td colspan="2">
-											<input autofocus onkeyup="auto_kode()" placeholder="Scan Barang / Input Manual" type="text" id="kode_barang2" class="form-control form-control-lg">
+												<input autofocus onkeyup="auto_kode()" placeholder="Scan Barang / Input Manual" type="text" id="kode_barang2" class="form-control form-control-lg">
 											</td>
+                                            <td colspan="1" rowspan="3">
+                                                <textarea id="detail_barang" class="form-control form-control-lg" name="detail_barang" rows="4" cols="50" readonly></textarea><br>
+                                                
+												<button value="simpan" name="input_list" style="background-color:#49a101" id="input_list" class="btn btn-primary btn-lg btn-block">Tambahkan</button>
+                                                
+												<button onclick="autofocuss()" type="reset" style="background-color:#538dd5" class="btn btn-info btn-lg btn-block">Cancel</button>
+                                            </td>
 											<td hidden>
-											<button name="go_cek" style="background-color:#00b050" id="go_cek" class="btn btn-primary btn-lg">Go</button>
-											</td>    
+												<button name="go_cek" style="background-color:#00b050" id="go_cek" class="btn btn-primary btn-lg">Go</button>
+											</td>
 										</tr>
-										<tr>
-										<td width="20%" style="color:#FFFFFF">Nama Barang: </th>
-										<th><input hidden placeholder="Nama Barang" readonly="readonly" id="jenis_barang" class="form-control form-control-sm">
-										<label style="font-size:20px;color:white;" id="jenis_barang2"><b>...</b></label>
-										</th>
-										<td valign="top" style="color:#FFFFFF" align="right" rowspan="2">QTY :</th>
-										<th rowspan="2"><input value="1" type="text" onchange="totalnya();" id="qty" class="form-control form-control-sm mata-uang" onkeyup="inputTerbilang();">
-										<label style="color:white;font-size:20px"id="kuantitasxx" name="kuantitasxx" title="Jumlah STOK">Jumlah Stok: </label>
-										<label hidden style="color:white;font-size:20px"id="kuantitasxxcek" name="kuantitasxx" title="Jumlah STOK"></label>
-										</th>
+                                        <tr>
+                                            <td rowspan="3" style="color:#FFFFFF" align="left">
+                                                QTY :
+                                            </td>
+											<td>
+                                                <input value="1" type="text" onchange="totalnya();" id="qty" class="form-control form-control-sm mata-uang" onkeyup="inputTerbilang();">
+                                            </td>                                            
+                                        </tr>
+										<tr hidden>
+											<td width="20%" style="color:#FFFFFF">Nama Barang: </td>
+											<th>
+                                                <input hidden placeholder="Nama Barang" readonly="readonly" id="jenis_barang" class="form-control form-control-sm">
+											    <label style="font-size:20px;color:white;" id="jenis_barang2"><b>...</b></label>
+											</th>
+											
+												<label hidden style="color:white;font-size:20px"id="kuantitasxx" name="kuantitasxx" title="Jumlah STOK">Jumlah Stok: </label>
+												<label hidden style="color:white;font-size:20px"id="kuantitasxxcek" name="kuantitasxx" title="Jumlah STOK"></label>
+											</th>
 										</tr>
-										<tr>
+										<tr hidden>
 											<td style="color:#FFFFFF">Detail :</th>
 											<th><input hidden placeholder="Warna" readonly="readonly" id="warna" class="form-control form-control-sm"><label style="font-size:20px;color:white;" id="warna2"><b>...</b></label>
 											</th>
+                                            
 										</tr>
 										<tr>
-											<td style="color:#FFFFFF">Size:</th>
-											<th><input hidden placeholder="Size" readonly="readonly" id="size" class="form-control form-control-sm"><label style="font-size:20px;color:white;" id="size2"><b>...</b></label></th>
-											<td rowspan="2">
-												<button onclick="autofocuss()" type="reset" style="background-color:#538dd5" class="btn btn-info btn-lg btn-block">Cancel</button>
-												</th>
-											<td rowspan="2">
-												<button value="simpan" name="input_list" style="background-color:#00b050" id="input_list" class="btn btn-primary btn-lg btn-block">Tambahkan</button>		
-											</td>
+											<td hidden style="color:#FFFFFF">Size:</th>
+											<td hidden <input hidden placeholder="Size" readonly="readonly" id="size" class="form-control form-control-sm"><label style="font-size:20px;color:white;" id="size2"><b>...</b></label></th>
+											
 										</tr>
-										<tr>
+										<tr hidden>
 											<td style="color:#FFFFFF">Harga:</th>
 											<th><input hidden value="0" type="text" class="form-control form-control-sm" id="harga_satuan" readonly="readonly"><label style="font-size:26px;color:white;" id="harga_satuan2">Rp0</label></th>
 										</tr>
 									</table>
 								</form>
-							</div>
-							<div class="form-group">
+								</div>
+								<div class="form-group">
 								<form method="post" id="myForm3" autocomplete="off">
 									<table style="background-color:#b8cce4" border="0" class="table table-hover" cellpadding="2" cellspacing="2" align="center">
 										<thead align="center">
@@ -264,17 +290,12 @@
 												<td hidden width="1%" align="center">
 													<p style="font-size:14pt"><b>No</b></p>
 													</th>
-												<td width="15%" align="center">
-													<p style="font-size:14pt"><b>Item</b></p>
-												</td>
-												<td align="center">
-													<p style="font-size:14pt"><b>Detail</b></p>
-												</td>
-												<td width="8%" align="center">
-													<p style="font-size:14pt"><b>Size</b></p>
-												</td>
+                                                    
 												<td width="8%" align="center">
 													<p style="font-size:14pt"><b>Qty</b></p>
+												</td>
+												<td width="15%" align="center">
+													<p style="font-size:14pt"><b>Item Detail</b></p>
 												</td>
 												<th hidden>Biaya Costum</th>
 												<th hidden>Kode Diskon</th>
@@ -297,16 +318,14 @@
 											$totpcs=0;
 											$tot_beli_swe=0;
 											$aray = 0;
-											$hitung_tota=0;
 											$total_harga_barang = 0;
-											$hitung_total = 0;
 											$total_biaya_costum = 0;
 											$total_diskon = 0;
 											$total_keselurahan =0;
 											$diskonxx2=0;
 											$totdiskon2 = 0;							
 											$diskon2nya2=0;
-											$data = mysqli_query($koneksi,"select * from t_transaksi_temp where OLEH='".$oleh."' order by ID DESC");
+											$data = mysqli_query($koneksi,"select * from t_transaksi_khusus_temp where OLEH='".$oleh."' order by ID DESC");
 											while($d = mysqli_fetch_array($data)){
 											//$qty=number_format($d['QTY'],0,",",".");
 												$qty=$d['QTY'];                                     
@@ -320,19 +339,19 @@
 											if ($kena != 'TIDAK'){
 												$tot_beli_swe = $tot_beli_swe + $qty;
 											}
-											
-/*											if ($tot_beli_swe >= 3){
+											/*
+											if ($tot_beli_swe >= 3){
 											//if ($tot_beli_swe >= 1){
 												$setdiskon="10K";
 												$potongannyaaa="10000";									
 												$total_diskonyaaa=$potongannyaaa*$tot_beli_swe;					
 											}
-											else{
+											else{*/
 												$setdiskon="";
 												$potongannyaaa="0";
 												$total_diskonyaaa="0";		
-											}*/
-											
+											//}
+									
 											
 											$banyaknyaaaa=$tot_beli_swe;
 											
@@ -341,8 +360,7 @@
 											$diskonxx = $d['POTONGAN'];
 											$totdiskon = $d['DISKON2'];
 											$total2 = $d['TOTAL2'];
-											$total_harga_barang = $total_harga_barang + $d['TOTAL'];									
-											$hitung_tota = $d['TOTAL'];											
+											$total_harga_barang = $total_harga_barang + $d['TOTAL'];
 											$total_biaya_costum = $total_biaya_costum + $d['HARGA_TAMBAHAN'];
 											$total_diskon = $total_diskon + $d['POTONGAN'];
 											$satuan=number_format($d['HARGA'],0,",",".");
@@ -360,27 +378,18 @@
 											
 											$tamb_costtamp=number_format($tamb_cost,0,",",".");
 											$tambahantamp=number_format($tambahan,0,",",".");
-											
-											
-											
-											
-											
-											if (($kod_bar == 'TB')or($kod_bar == 'TB2')){												
-											}
-											else{
-												$hitung_total = $hitung_total + $hitung_tota;												
-											}											
-											//	$total_harga_barang = $total_harga_barang + $d['TOTAL'];
 											?>
-										
 										<tr align="center">
 											<td hidden><?php echo $no++; ?></td>
-											<td align="left"><?php echo $jenbar; ?></td>
+											<td><?php echo $qty; ?>x</td>
+											<td align="left"><?php echo $jenbar." ".$sizex; ?>
+                                                <br>
+                                                <?php echo $warnaaa; ?>
+                                            </td>
 											<td hidden><?php echo "Rp".$satuan; ?></td>
-											<td align="center"><?php echo $warnaaa; ?></td>
-											<td><?php echo $sizex; ?></td>
-											<td><?php echo $qty; ?></td>
-											<td align="right"><?php echo "Rp".$total2tamp;  ?></td>
+											<td hidden align="center"><?php echo $warnaaa; ?></td>
+											<td hidden><?php echo $sizex; ?></td>
+											<td><?php echo "Rp".$total2tamp;  ?></td>
 											<td>
 												<!--<a href='update-transaksi-detail.php?kode_barang=<?php echo $kod_bar."&qty=".$qty; ?>' id="edit_<?php echo $kod_bar;?>" title="Edit Item" onclick="return confirm('Are you sure you want to update qty?')"><img src="img/edit.png" height="50%" ></a>
 													<a href='hapus-transaksi-detail.php?kode_barang=<?php echo $kod_bar; ?>' title="Delete Item" onclick="return confirm('Are you sure you want to delete?')"><img src="img/delete.png" height="50%" ></a>-->
@@ -394,56 +403,32 @@
 											$total_bersihnya = $harga3 - $totdiskon2;
 											$diskonxx2 = $diskonxx + $diskonxx2;
 											}
-											
 											$harga5=number_format($harga3,0,",",".");	
 											$totdiskon2tamp=number_format($totdiskon2,0,",",".");	
 											$diskonxx2tamp=number_format($diskonxx2,0,",",".");	
 											$total_bersihnyatamp=number_format($total_bersihnya,0,",",".");	
-											
-											
-											
-											
+											$total_harga_barang = $total_harga_barang + $d['TOTAL'];
 											$total_harga_barangtamp=number_format($total_harga_barang,0,",",".");	
 											$total_biaya_costum = $total_biaya_costum + $d['HARGA_TAMBAHAN'];
 																$total_biaya_costumtamp=number_format($total_biaya_costum,0,",",".");	
 																$total_diskon = $total_diskon + $d['POTONGAN'];
 																$total_diskontamp=number_format($total_diskon,0,",",".");	
-																
-																//if ($tot_beli_swe >= 3){
+																/*
+																if ($tot_beli_swe >= 3){
 																//if ($tot_beli_swe >= 1){
-																if ($hitung_total >= 200000){
-																	//$total_bersih = $total_harga_barang - 30000 + $total_biaya_costum;
-																	$total_bersih = $total_harga_barang + $total_biaya_costum;
+																	$total_bersih = $total_harga_barang - $total_diskonyaaa + $total_biaya_costum;
 																}
-																else{
+																else{*/
 																	$total_bersih = $total_harga_barang + $total_biaya_costum;
-																}
+																//}
 																$total_bersihtamp=number_format($total_bersih,0,",",".");	
-																
-																	
-											if ($hitung_total >= 200000){
-											//if ($tot_beli_swe >= 1){
-												$setdiskon="0";
-												$potongannyaaa="0";									
-												//$total_diskonyaaa=$potongannyaaa*$tot_beli_swe;					
-												$total_diskonyaaa=$potongannyaaa;					
-											}
-											else{
-												$setdiskon="";
-												$potongannyaaa="0";
-												$total_diskonyaaa="0";		
-											}
-											
-											
-											
-																
 																
 																
 											$totpcs_tamp=number_format($totpcs,0,",",".");							   
 											$tot_beli_swe_tamp=number_format($tot_beli_swe,0,",",".");		
 											
 											?>
-										<tr>
+										<tr hidden>
 											<td colspan="3">
 											</td>
 											<td>
@@ -456,70 +441,71 @@
 											</td>
 										</tr>
 									</table>
-								</form>
-									<label hidden name="cek_totalll" id="cek_totalll"><?php echo $hitung_total; ?></label>
-							</div>
-							<div class="form-group">
-								<table border="0" width="100%" cellpadding="2" cellspacing="2" align="center">
-									<tr>
-										<td>
-										</td>
-										<td align="right">
-											<a href="#"><img src="img/show.png" title="Lihat Draft" width="30" height="30" data-toggle="modal" data-target="#show-draft"></a>
-											&nbsp
-											&nbsp
-											<button width="100%" title="Simpan ke Draft" value="simpan" name="simpan_draft" style="background-color:#00b050" id="simpan_draft" class="btn btn-primary btn-sm">Simpan ke Draft</button>
-										</td>
-									</tr>
-									<tr>
-										<td align="left">
-											<p style="color:white;font-size:10pt">
-												<?php	echo $_SESSION['level']	.":"; ?>
-											</p>
-											<p style="color:white;font-size:16pt">
-												<?php echo $_SESSION['nama_lengkap']; ?>
-											</p>
-											<p style="color:white;font-size:pt">
-												<?php	echo $semua; 
-													?>
-											</p>
-										</td>
-										<?php											
-											//$penjualan  = mysqli_query($koneksi, "select SUM(QTY) AS PCS from t_transaksi where JENIS_BARANG<>'Costum' AND JENIS_BARANG<>'TB' AND JENIS_BARANG<>'TB2' AND JENIS_BARANG<>'Totebag' AND JENIS_BARANG<>'Packing' AND JENIS_BARANG<>'Ongkir' AND JENIS_BARANG<>'Custom Sablon DTF Only'AND JENIS_BARANG<>'CST Basic Hoodie' AND JENIS_BARANG<>'CST Crewneck' AND JENIS_BARANG<>'CST Zipper' AND JENIS_BARANG<>'CST Hoodie Crop' AND JENIS_BARANG<>'CST Crewneck Crop' AND JENIS_BARANG<>'CST + Sisi' AND JENIS_BARANG<>'Shooping Bag' AND JENIS_BARANG<>'Custom Sablon DTF Only' AND TGL='".$tgl_saja."'");
-											$penjualan  = mysqli_query($koneksi, "select SUM(QTY) AS PCS from t_transaksi where JENIS_BARANG<>'Costum' AND JENIS_BARANG<>'TB' AND JENIS_BARANG<>'TB2' AND JENIS_BARANG<>'Totebag' AND JENIS_BARANG<>'Packing' AND JENIS_BARANG<>'Ongkir' AND JENIS_BARANG<>'Custom Sablon' AND JENIS_BARANG<>'Custom Sablon DTF Only' AND JENIS_BARANG<>'CST Basic Hoodie' AND JENIS_BARANG<>'CST Crewneck' AND JENIS_BARANG<>'CST Zipper' AND JENIS_BARANG<>'CST Hoodie Crop' AND JENIS_BARANG<>'CST Crewneck Crop' AND JENIS_BARANG<>'CST + Sisi' AND JENIS_BARANG<>'Shooping Bag' AND JENIS_BARANG<>'Custom Sablon DTF Only' AND KENA='YA' AND TGL='".$tgl_saja."'");
-											while($data = mysqli_fetch_array($penjualan)){
-															$pcs_trjual = $data['PCS'];							
-															$pcs_trjual = number_format($pcs_trjual,0,',','.');	
-														}
-											//$costum  = mysqli_query($koneksi, "select SUM(QTY) AS COSTUM,JENIS_BARANG from t_transaksi where  (KENA='TIDAK' or JENIS_BARANG='Costum') AND JENIS_BARANG<>'Shooping Bag' AND TGL='".$tgl_saja."'");
-											$costum  = mysqli_query($koneksi, "select SUM(QTY) AS COSTUM,JENIS_BARANG from t_transaksi where  (KENA='TIDAK' or JENIS_BARANG='Costum') AND JENIS_BARANG<>'Shooping Bag' AND TGL='".$tgl_saja."'");
-											while($data2= mysqli_fetch_array($costum)){
-															$tot_cos = $data2['COSTUM'];							
-															$tot_cost = number_format($tot_cos,0,',','.');	
-														}
-											?>
-										<td align="right">
-											<p style="color:white;font-size:10pt">
+									</form>
+								</div>
+								<div class="form-group">
+									<table hidden border="0" width="100%" cellpadding="2" cellspacing="2" align="center">
+										<tr>		
+											<td>
+											</td>
+											<td  align="right">
+											
+												<a href="#"><img src="img/show.png" title="Lihat Draft" width="30" height="30" data-toggle="modal" data-target="#show-draft"></a>
 												&nbsp
-											</p>
-											<label style="color:white;font-size:20pt" title="PSC Terjual">
-											<?php echo $pcs_trjual; ?></label>
-											<label style="color:white;font-size:20pt" title="Jumlah PSC Terjual Hari ini">/</label>
-											<label style="color:white;font-size:20pt" title="Jumlah Costum Hari ini">
-											<?php echo $tot_cost; ?></label>												
-											<p style="color:white;font-size:pt">
-												<?php	echo $jam_sekarang; 
-													?>
-											</p>
-										</td>
-									</tr>
-								</table>
+												&nbsp
+												<button width="100%" title="Simpan ke Draft" value="simpan" name="simpan_draft" style="background-color:#00b050" id="simpan_draft" class="btn btn-primary btn-sm">Simpan ke Draft</button>
+											</td>
+										</tr>
+										<tr>
+											<td align="left">
+												<p style="color:white;font-size:10pt">
+													<?php	echo $_SESSION['level']	.":"; ?>
+												</p>
+												<p style="color:white;font-size:16pt">
+													<?php echo $_SESSION['nama_lengkap']; ?>
+												</p>
+												<p style="color:white;font-size:pt">
+													<?php	echo $semua; 
+														?>
+												</p>
+											</td>										
+											<?php											
+												//$penjualan  = mysqli_query($koneksi, "select SUM(QTY) AS PCS from t_transaksi where JENIS_BARANG<>'Costum' AND JENIS_BARANG<>'TB' AND JENIS_BARANG<>'TB2' AND JENIS_BARANG<>'Totebag' AND JENIS_BARANG<>'Packing' AND JENIS_BARANG<>'Ongkir' AND JENIS_BARANG<>'Custom Sablon DTF Only'AND JENIS_BARANG<>'CST Basic Hoodie' AND JENIS_BARANG<>'CST Crewneck' AND JENIS_BARANG<>'CST Zipper' AND JENIS_BARANG<>'CST Hoodie Crop' AND JENIS_BARANG<>'CST Crewneck Crop' AND JENIS_BARANG<>'CST + Sisi' AND JENIS_BARANG<>'Shooping Bag' AND JENIS_BARANG<>'Custom Sablon DTF Only' AND TGL='".$tgl_saja."'");
+												$penjualan  = mysqli_query($koneksi, "select SUM(QTY) AS PCS from t_transaksi where JENIS_BARANG<>'Costum' AND JENIS_BARANG<>'TB' AND JENIS_BARANG<>'TB2' AND JENIS_BARANG<>'Totebag' AND JENIS_BARANG<>'Packing' AND JENIS_BARANG<>'Ongkir' AND JENIS_BARANG<>'Custom Sablon' AND JENIS_BARANG<>'Custom Sablon DTF Only' AND JENIS_BARANG<>'CST Basic Hoodie' AND JENIS_BARANG<>'CST Crewneck' AND JENIS_BARANG<>'CST Zipper' AND JENIS_BARANG<>'CST Hoodie Crop' AND JENIS_BARANG<>'CST Crewneck Crop' AND JENIS_BARANG<>'CST + Sisi' AND JENIS_BARANG<>'Shooping Bag' AND JENIS_BARANG<>'Custom Sablon DTF Only' AND KENA='YA' AND TGL='".$tgl_saja."'");
+												while($data = mysqli_fetch_array($penjualan)){
+																$pcs_trjual = $data['PCS'];							
+																$pcs_trjual = number_format($pcs_trjual,0,',','.');	
+															}
+												//$costum  = mysqli_query($koneksi, "select SUM(QTY) AS COSTUM,JENIS_BARANG from t_transaksi where  (KENA='TIDAK' or JENIS_BARANG='Costum') AND JENIS_BARANG<>'Shooping Bag' AND TGL='".$tgl_saja."'");
+												$costum  = mysqli_query($koneksi, "select SUM(QTY) AS COSTUM,JENIS_BARANG from t_transaksi where  (KENA='TIDAK' or JENIS_BARANG='Costum') AND JENIS_BARANG<>'Shooping Bag' AND TGL='".$tgl_saja."'");
+												while($data2= mysqli_fetch_array($costum)){
+																$tot_cos = $data2['COSTUM'];							
+																$tot_cost = number_format($tot_cos,0,',','.');	
+															}
+												?>
+											<td align="right">
+												<p style="color:white;font-size:10pt">
+													&nbsp
+												</p>												
+												<label style="color:white;font-size:20pt" title="PSC Terjual">
+													<?php echo $pcs_trjual; ?></label>
+												
+												<label style="color:white;font-size:20pt" title="Jumlah PSC Terjual Hari ini">/</label>
+												<label style="color:white;font-size:20pt" title="Jumlah Costum Hari ini">
+													<?php echo $tot_cost; ?></label>												
+												<p style="color:white;font-size:pt">
+													<?php	echo $jam_sekarang; 
+														?>
+												</p>
+											</td>
+										</tr>
+									</table>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
 		</div>
 		<script>
 			function autofocuss() {
@@ -564,7 +550,7 @@
 				if (confirm("Are you sure you want to delete this Item?")) {			
 					$.ajax({
 					  type: "get",
-					  url: "hapus-transaksi-detail.php",
+					  url: "hapus-transaksi-khusus-detail.php",
 					  data: {kode_barang:kode_barang, tambahan:tambahan},
 					  success: function(value){
 						//$("#data_table").html(value);
@@ -578,6 +564,7 @@
 				}
 			}
 		</script>
+		
 		<script type="text/javascript">
 			function buka_draft(kod_draf){
 				var kode_draft=kod_draf;	
@@ -596,6 +583,7 @@
 				}
 			}
 		</script>
+		
 		<script type="text/javascript">
 			function total_diskonn(){	
 			//total_kembali();
@@ -611,8 +599,7 @@
 				document.getElementById("banyaknya_diskon").value = "0";
 				banyaknya_diskonx = 0;
 			}
-//			var total_diskon = parseInt(potonganxxx) * parseInt(banyaknya_diskonx);
-			var total_diskon = parseInt(potonganxxx);
+			var total_diskon = parseInt(potonganxxx) * parseInt(banyaknya_diskonx);
 			 			 			 
 			 var total_bayar = parseInt(total_barang)-parseInt(total_diskon);
 			 
@@ -627,9 +614,9 @@
 			var total__bayarx = total_bayar.toFixed().replace(/\B(?=(\d{3})+(?!\d))/g, ".");		
 			document.getElementById("total_bayarnyax").innerHTML = "Rp"+total__bayarx;				 			
 			
-			//	document.getElementById("totalhargaces2fix").innerHTML = total;
+		//	document.getElementById("totalhargaces2fix").innerHTML = total;
 			//var hemm = total.toFixed().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-			//	document.getElementById("totalhargaces2").innerHTML = "Total Pembayaran= Rp"+hemm;		
+		//	document.getElementById("totalhargaces2").innerHTML = "Total Pembayaran= Rp"+hemm;		
 			 
 			 
 			}
@@ -666,7 +653,7 @@
 			 var cek_diskon;	
 			//alert(kode_promo);
 			$.ajax({
-			url: 'list-promo.php',
+			url: 'list-promo-khusus.php',
 			method: 'GET',
 			data     : 'kode_promo='+kode_promo,
 			}).success(function (data) {
@@ -677,7 +664,7 @@
 			 $('#tot_diskon').val(obj.nominal);
 			 
 			 
-			      	cek_diskon = $('#potonganxx').val();
+         	cek_diskon = $('#potonganxx').val();
 			 
 			total_diskonn();
 			total_kembali();
@@ -738,26 +725,17 @@
 		<script type="text/javascript">
 			function cek_centang(){		
 				 var checkBox = document.getElementById("centang");
-				 var disk = $("#tot_diskon").val();
-				 var cek_to = document.getElementById('cek_totalll').innerHTML;			 
-				 var cek_nilai = parseInt(cek_to);
-				 if (cek_nilai<200000){
-					 alert('Minimal transaksi 200rb untuk aktifkan diskon');
-					 checkBox.checked = false;
-				 }
-				 else{
-					  if (checkBox.checked == true){
-							$('#potonganxx').val("30000");
-							total_diskonn();
-					  } else {
-							//total_kembali();$('#kodiskxx').val("");
-							$('#potonganxx').val("0");
-							$("#costumerx").focus();
-							total_diskonn();
-							//total_kembali();
-						//	location.reload(true);
-					 }
-				 }
+				  if (checkBox.checked == true){					
+						$('#kodiskxx').val("");
+						$('#potonganxx').val("0");				 
+						$("#costumerx").focus();						 
+						total_diskonn();
+						//total_kembali();
+				  } else {
+					//location.reload(true);				 
+						total_diskonn();
+						//total_kembali();
+				  }
 			}
 		</script>
 		<script type="text/javascript">
@@ -806,6 +784,7 @@
 			}
 			
 		</script> 
+		
 		<script type="text/javascript">
 			function total_kembali(){		  
 				 $('.mata-uang').mask('0.000.000.000', {reverse: true});
@@ -937,152 +916,155 @@
 			}
 			
 		</script> 
+		
 		<div id="kanan">
 			<div class="sc_kanan">
-				<br>
+			<br>
 				<div class="form-group">
-					<form method="post" onsubmit="return cek_dulukanan()" name="myForm2" action="cetak-transaksi.php" autocomplete="off">
-						<table border="0" width="95%" cellpadding="2" cellspacing="2" align="center">
-							<tr hidden>
-								<td colspan="3">
-									<h6 style="color:white;">Promo/ Diskon</h6>
-								</td>
-							</tr>
-							<tr hidden>
-								<td>
-									<input type="text" placeholder="Masukkan Kode Promo" onkeyup="isi_promoxxx();" id="kodiskxx" value="<?php echo $setdiskon; ?>" name="kodiskxx" class="form-control form-control-sm">
-								</td>
-								<td>
-									<input type="text" value="<?php echo $potongannyaaa ?>" name="potonganxx" id="potonganxx" class="form-control form-control-sm" readonly="readonly">
-								</td>
-								<td  align="left">
-									<input type="text" id="banyaknya_diskon" value="<?php echo $banyaknyaaaa; ?>" maxlength="8" onkeyup="total_diskonn();" oninput="total_diskonn();" name="banyaknya_diskon" class="form-control form-control-sm mata-uang" readonly="readonly">
-								</td>
-								<td align="left">
-								</td>
-							</tr>
-							<tr hidden>
-								<td>
-									<br>
-								</td>
-							</tr>
-							<tr hidden>
-								<td colspan="2">
-									<input type="text" placeholder="Masukkan Voucher" id="voucherx" onkeyup="cek_isinya_voucher()" name="voucherx" class="form-control form-control-sm">
-									<input hidden type="text" placeholder="ISINYA" id="voucherx2" name="voucherx2" class="form-control form-control-sm">
-								</td>
-								<td width="10%">
-									<button style="background-color:#00b050" class="btn btn-primary btn-sm btn-block" title="Validasi Voucher" onclick="isi_voucher2()" name="prosess" disabled id="prosess" >&#10003;</button>	
-								</td>
-								<td width="10%">								
-									<button style="background-color:#00b050" class="btn btn-primary btn-sm btn-block" title="Batalkan Voucher" onclick="refresh_all()" name="prosessref" id="prosessref" type="reset">&#x21bb;</button>													
-								</td>
-							</tr>
-							<tr hidden>
-								<td><label name="total_harga_barang" id="total_harga_barang"><?php echo $total_harga_barang; ?></label></td>
+				<form method="post" onsubmit="return cek_dulukanan()" name="myForm2" action="cetak-transaksi.php" autocomplete="off">
+					<table border="2" width="95%" cellpadding="2" cellspacing="2" align="center">
+						<tr>
+							<td colspan="3">								
+								<h6 style="color:white;">Kode Diskon</h6>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<input type="text" placeholder="Masukkan Kode Promo" onkeyup="isi_promoxxx();" id="kodiskxx" value="<?php echo $setdiskon; ?>" name="kodiskxx" class="form-control form-control-sm">
+							</td>
+							<td align="center">
+                                <p style="color:#ffffff;" align="left"><b>Potongan</b></p><br>
+                                <p style="color:#ffffff;" align="left"><b><?php echo $potongannyaaa ?></b></p>
+							</td>
+							<td>
+								<input type="text" value="<?php echo $potongannyaaa ?>" name="potonganxx" id="potonganxx" class="form-control form-control-sm" readonly="readonly">
+							</td>
+							<td  align="left">
+								<input type="text" id="banyaknya_diskon" value="<?php echo $banyaknyaaaa; ?>" maxlength="8" onkeyup="total_diskonn();" oninput="total_diskonn();" name="banyaknya_diskon" class="form-control form-control-sm mata-uang" readonly="readonly">
+							</td>
+						</tr>
+						<tr hidden>
+							<td>
+							
+							<br>
+							</td>
+						</tr>
+						<tr hidden>
+							<td colspan="2">
+								<input type="text" placeholder="Masukkan Voucher" id="voucherx" onkeyup="cek_isinya_voucher()" name="voucherx" class="form-control form-control-sm">
+								<input hidden type="text" placeholder="ISINYA" id="voucherx2" name="voucherx2" class="form-control form-control-sm">
+							</td>
+							<td width="10%">
+								<button style="background-color:#00b050" class="btn btn-primary btn-sm btn-block" title="Validasi Voucher" onclick="isi_voucher2()" name="prosess" disabled id="prosess" >&#10003;</button>	
+							</td>
+							<td width="10%">								
+								<button style="background-color:#00b050" class="btn btn-primary btn-sm btn-block" title="Batalkan Voucher" onclick="refresh_all()" name="prosessref" id="prosessref" type="reset">&#x21bb;</button>													
+							</td>
+						</tr>
+						<tr>
+								<td hidden><label name="total_harga_barang" id="total_harga_barang"><?php echo $total_harga_barang; ?></label></td>								
 								<td width="80%" colspan="6">
-									<p align="right"><b><?php echo "Total Harga Item= Rp".$total_harga_barangtamp; ?></b></p>
+									<p style="color:#ffffff;" align="left"><b><?php echo "Total Tagihan : Rp".$total_harga_barangtamp; ?></b></p>
 								</td>
-							</tr>
-							<tr>
-								<td hidden colspan="4" align="left">
-									<input onclick="cek_centang()" type="checkbox" id="centang2" name="centang2" value="centang">
-									<label style="color:#FFFFFF" for="centang">Centang Untuk Mematikan Diskon</label>
-								</td>
-								<td colspan="4" align="left">
-									<input onclick="cek_centang()" type="checkbox" id="centang" name="centang" value="centang">
-									<label style="color:#FFFFFF" for="centang">Centang Untuk Aktifkan</label>
-								</td>
-							</tr>
-							<tr hidden>
-								<td style="color:white;" align="right">
-									Total Potongan :
-								</td>
-								<td colspan="3" align="center">
-									<input type="text"  value="<?php echo $total_diskonyaaa ?>" id="tot_diskon" maxlength="8" name="tot_diskon" class="form-control form-control-sm" readonly>
-								</td>
-							</tr>
-							<tr>
-								<td colspan="4" align="center">
-									<br>
-									<h5 style="color:white">Total Pembayaran</h5>
-									<input hidden type="text" value="<?php echo $total_bersihtamp; ?>" id="total_bayarnya" maxlength="8" name="total_bayarnya" class="form-control form-control-sm mata-uang" readonly="readonly">
-									<h1 style="color:white"><label name="total_bayarnyax" id="total_bayarnyax"><?php echo "Rp".$total_bersihtamp; ?></label></h1>
-								</td>
-								<td hidden><label name="total_bersih" id="total_bersih"><?php echo $total_bersih; ?></label></td>
-								<td hidden>
-									<h6 align="right"><label name="total_bersihtamp" id="total_bersihtamp"><?php echo "Total Pembayaran= Rp".$total_bersihtamp; ?></label></h6>
-								</td>
-								</td>
-								<td hidden><label name="total_bersih" id="total_bersih"><?php echo $total_bersih; ?></label></td>
-								<td hidden>
-									<h6 align="right"><label name="total_bersihtamp" id="total_bersihtamp"><?php echo "Total Pembayaran= Rp".$total_bersihtamp; ?></label></h6>
-								</td>
-							</tr>
-							<tr>
-								<td colspan="4" align="center">
-									<table border="0" width="100%" cellpadding="2" cellspacing="2" align="center">
-										<tr>
-											<td style="color:white;" align="right">
-												<br>
-												Customer
-											</td>
-											<td align="left"><br>
-												<input type="text" placeholder="Customer" id="costumerx" name="costumerx" class="form-control form-control-sm ">
-											</td>
-										</tr>
-										<tr>
-											<td style="color:white;" align="right">
-												Metode Bayar
-											</td>
-											<td align="left">
-												<select name="payment" id="payment" class="form-control form-control-sm">
-													<option value="CASH" <?php if($_POST['payment'] == 'CASH') {echo 'selected=selected'; } ?> selected>Cash</option>
-													<option value="EDC" <?php if($_POST['payment'] == 'EDC') {echo 'selected=selected'; } ?> >EDC</option>
-													<option value="TRANSFER" <?php if($_POST['payment'] == 'TRANSFER') {echo 'selected=selected'; } ?> >Transfer</option>
-												</select>
-											</td>
-										</tr>
-										<tr>
-											<td style="color:white;" align="right">
-												Diterima
-											</td>
-											<td align="left">
-												<input type="text" value="0" id="jumlah_pembayaran" maxlength="8" onkeyup="total_kembali();" name="jumlah_pembayaran" class="form-control form-control-sm mata-uang">
-											</td>
-										</tr>
-										<tr>
-											<td style="color:white;" align="right">
-												Kembali
-											</td>
-											<td valign="center" align="right">
-												<h3 style="color:white;"><label name="kembalian" id="kembalian">Rp0</label></h3>
-											</td>
-										</tr>
-										<tr>
-											<td style="color:white;" align="right">
-												<button onclick="autofocuss2()" type="reset" style="background-color:#538dd5" class="btn btn-info btn-sm btn-block">Cancel</button>
-											</td>
-											<td valign="center" align="right">
-												<button value="simpan" type="submit" style="background-color:#00b050" class="btn btn-primary btn-sm btn-block">Cetak Nota</button>
-											</td>
-										</tr>
-									</table>
-								</td>
-							</tr>
-							<tr>
-								<td colspan="4" align="center">
-									<br>
-									<br>
-									<br>
-									<a href="form-transaksi" style="color:#FFFFFe"><button type="button" style="width:100%;background-color:#538dd5;" class="btn btn-lg btn-secondary">Riwayat Transaksi</button></a>								
-									<a href="cetak-laporan-penjualan" style="color:#FFFFFe"><button type="button" style="width:100%;background-color:#538dd5;" class="btn btn-lg btn-secondary">Cetak Laporan Penjualan</button></a>								
-									<a href="utama" style="color:#FFFFFe"><button type="button" style="width:100%;background-color:#538dd5;" class="btn btn-lg btn-secondary">Menu Utama </button></a>
-								</td>
-							</tr>
-						</table>
+						</tr>
+						<tr>
+							<td style="color:white;" align="left">
+								Total Potongan :
+							</td>
+							<td colspan="3" align="center">
+								<input type="text"  value="<?php echo $total_diskonyaaa ?>" id="tot_diskon" maxlength="8" name="tot_diskon" class="form-control form-control-sm" readonly>
+							</td>
+								
+						</tr>	
+						<tr>
+							<td colspan="4" align="left">
+							<br>
+								<h5 style="color:white">Sisa Pembayaran</h5>
+								   <input hidden type="text" value="<?php echo $total_bersihtamp; ?>" id="total_bayarnya" maxlength="8" name="total_bayarnya" class="form-control form-control-sm mata-uang" readonly="readonly">
+								<h1 align="center" style="color:white"><label name="total_bayarnyax" id="total_bayarnyax"><?php echo "Rp".$total_bersihtamp; ?></label></h1>
+							</td>
+								<td hidden><label name="total_bersih" id="total_bersih"><?php echo $total_bersih; ?></label></td>							
+									<td hidden><h6 align="right"><label name="total_bersihtamp" id="total_bersihtamp"><?php echo "Total Pembayaran= Rp".$total_bersihtamp; ?></label></h6></td>
+							</td>
+							<td hidden><label name="total_bersih" id="total_bersih"><?php echo $total_bersih; ?></label></td>							
+									<td hidden><h6 align="right"><label name="total_bersihtamp" id="total_bersihtamp"><?php echo "Total Pembayaran= Rp".$total_bersihtamp; ?></label></h6></td>
+								
+						</tr>
+						<tr>
+							<td colspan="4" align="center">
+								<table border="0" width="100%" cellpadding="2" cellspacing="2" align="center">
+									<tr>
+										<td style="color:white;" align="left">
+											<br>
+											Customer
+										</td>
+										<td align="left"><br>
+											<input type="text" placeholder="Customer" id="costumerx" name="costumerx" class="form-control form-control-sm ">
+										</td>
+									</tr>
+									<tr>
+										<td style="color:white;" align="left">
+											Payment
+										</td>
+										<td align="left">
+											<select name="payment" id="payment" class="form-control form-control-sm">
+												 <option value="CASH" <?php if($_POST['payment'] == 'CASH') {echo 'selected=selected'; } ?> selected>Cash</option>
+												 <option value="EDC" <?php if($_POST['payment'] == 'EDC') {echo 'selected=selected'; } ?> >EDC</option>
+												 <option value="TRANSFER" <?php if($_POST['payment'] == 'TRANSFER') {echo 'selected=selected'; } ?> >Transfer</option>
+											</select>		
+										</td>
+									</tr>
+									<tr>
+										<td style="color:white;" align="left">
+											Diterima
+										</td>
+										<td align="left">
+											<input type="text" value="0" id="jumlah_pembayaran" maxlength="8" onkeyup="total_kembali();" name="jumlah_pembayaran" class="form-control form-control-sm mata-uang">
+										</td>
+									</tr>
+									<tr>
+										<td style="color:white;" align="left">
+											Kembali
+										</td>
+										<td valign="center" align="right">
+											<h3 style="color:white;"><label name="kembalian" id="kembalian">Rp0</label></h3>
+										</td>
+									</tr>
+									<tr>
+										<td style="color:white;" align="right">
+											<button onclick="autofocuss2()" type="reset" style="background-color:#538dd5" class="btn btn-info btn-sm btn-block">Cancel</button>
+										</td>
+										<td valign="center" align="right">
+											<button value="simpan" type="submit" style="background-color:#00b050" class="btn btn-primary btn-sm btn-block">Input</button>
+										</td>
+									</tr>
+                                    <tr>
+                                        
+										<td colspan="2">
+                                            <a href="form-transaksi-khusus"><button type="button" style="width:100%;background-color:#538dd5;color:#FFFFFe;" class="btn btn-sm btn-block">Riwayat Transaksi Khusus</button></a>
+										</td>
+                                    </tr>
+								</table>
+							
+							</td>
+						</tr>
+						<tr>
+							<td colspan="4" align="center">
+							<br>
+											<br>
+											<br>
+														
+								<a hidden href="cetak-laporan-penjualan" style="color:#FFFFFe"><button type="button" style="width:100%;background-color:#538dd5;" class="btn btn-lg btn-secondary">Cetak Laporan Penjualan</button></a>								
+								<a href="utama" style="color:#FFFFFe"><button type="button" style="width:100%;background-color:#538dd5;" class="btn btn-lg btn-secondary">Menu Utama </button></a>
+								
+							</td>
+						</tr>
+						
+					</table>
 					</form>
 				</div>
+				
+				
 				<div id="show-draft" class="modal fade" role="dialog">
 					<div class="modal-dialog">
 						<div class="modal-content">
@@ -1106,13 +1088,15 @@
 											$kode_draft = $d['KODE_DRAFT'];
 										
 									?>
+									
 								<tr align="center">
 									<td><?php echo $no++; ?></td>
 									<td align="center" width="30%">									
 										<a href='buka-draft.php?kode_draft=<?php echo $kode_draft; ?>' title="Buka Draft" onclick="return confirm('Buka Draft <?php echo $kod_draf; ?> ???')"><button type="button" class="btn btn-info">
 										<b><?php echo $kode_draft; ?></button></b></a>
-									</td>
+									</td>											
 									<td align="left">
+								
 										<?php
 											$data2 = mysqli_query($koneksi,"select * from t_draft where KODE_DRAFT='$kode_draft' ORDER BY QTY DESC");
 											
@@ -1126,17 +1110,22 @@
 												
 												echo "*".$semua."<br>";
 											}
-											?>
+										?>
 									</td>
 								</tr>
-								<?php } ?>
-							</table>
+											<?php } ?>
+								
+							</table>	
 							<div class="modal-footer">					
 								<button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
-							</div>
+							</div>							
 						</div>
-					</div>
+						
+					</div>		
 				</div>
+				
+				
+				
 			</div>
 		</div>
 	</body>

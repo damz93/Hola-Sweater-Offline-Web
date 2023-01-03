@@ -63,12 +63,15 @@
 			$waktu_skg = date("d/m/Y");
 						$jam = date("H:i:s");
 						
-			$penjualan_  = mysqli_query($koneksi, "select * from t_transaksi where KODE_TRANSAKSI='$kode_transaksi' order by JENIS_BARANG,WARNA ASC");
+			$penjualan_  = mysqli_query($koneksi, "select * from t_transaksi_khusus where KODE_TRANSAKSI='$kode_transaksi' order by JENIS_BARANG,WARNA ASC");
 					
 					         while($datax = mysqli_fetch_array($penjualan_)){	
 								$costm = $datax['COSTUMER'];
+                                $tgll = date_create($datax['TGL']);
+                                $tglx = date_format($tgll,"d-m-Y");
 							 }
-							 $penjualan  = mysqli_query($koneksi, "select * from t_transaksi where KODE_TRANSAKSI='$kode_transaksi' order by JENIS_BARANG,WARNA ASC");
+                             $waktu1x = substr($waktuxx,0,10);
+							 $penjualan  = mysqli_query($koneksi, "select * from t_transaksi_khusus where KODE_TRANSAKSI='$kode_transaksi' order by JENIS_BARANG,WARNA ASC");
 			?>
 		<font size="10" face="Arial" >
 			<table border="0" style="width:95%" align='left'>
@@ -85,19 +88,25 @@
 				<tr>
 					<td colspan='3'>
 					<table>
-						<tr>
-							<td><font style="font-size:30pt"> Customer </font></td><td><font style="font-size:40pt"> :</font></td><td> <font style="font-size:50pt"> <?php echo $costm; ?></font></td>
-							
+                        <tr>
+							<td><font style="font-size:40pt"> Date </font></td><td><font style="font-size:40pt">:</font></td><td> <font style="font-size:45pt"> <?php echo $tglx; ?></font></td>							
 						</tr>
 						<tr>
-							<td></td><td></td><td><b> <?php echo $kode_transaksi;?></b></td>
+							<td><font style="font-size:40pt"> Kode Trx</font></td><td><font style="font-size:40pt">:</font></td><td> <font style="font-size:45pt"> <?php echo $kode_transaksi; ?></font></td>							
 						</tr>
+						<tr>
+							<td><font style="font-size:40pt"> Cust. </font></td><td><font style="font-size:40pt">:</font></td><td> <font style="font-size:45pt"> <?php echo $costm; ?></font></td>							
+						</tr>
+
+
 					</table>
 					<br>
 					</td>
+                    
 				</tr>
-				<tr align="left">
-					<td colspan='3'><b>Order</b></td>
+                
+				<tr align="center">
+					<td colspan='3'><hr size="20px"></td>
 				</tr>
 				<?php
 							error_reporting(0);
@@ -127,6 +136,7 @@
 							$potonggg = $diskonnew;
 							$potongan2 = "Rp" . number_format($diskonnew,0,',','.');			
 							$diskon = $data['DISKON'];	
+							$tgl_hari_ini = $data['TGL'];	
 							$diskon2 = $data['DISKON2'];	
 							$potongan = $data['POTONGAN'];	
 							$paym = $data['PAYMENT'];	
@@ -140,10 +150,11 @@
 					          
 					          ?>
 				<tr align="left" colspan="3" width="70%">
-					<td align='left'><?php echo $data['JENIS_BARANG']; ?><br><?php echo $data['WARNA']; ?>(<?php echo $data['SIZE_']?>)</td>
-					<td width="5%" rowspan="2" align='center'><?php echo $data['QTY']."x"; ?></td>
-					<td rowspan="2" align='right'><?php echo $total_blum_disktamp; ?></td>
-				</tr>
+                        
+                        <td width="10%" rowspan="2" align='left'><?php echo $data['QTY']."x"; ?></td>
+                        <td align='left'><?php echo $data['JENIS_BARANG']; echo $data['SIZE_']; ?><br><?php echo $data['WARNA']; ?></td>
+                        <td rowspan="2" align='right'><?php echo $total_blum_disktamp; ?></td>
+                </tr>
 				<tr>
 					<!--<td hidden align='left'><?php echo $satuantamp; ?></td>-->					
 				</tr>
@@ -201,7 +212,7 @@
 								 
 								 
 								// $penjualan2 = mysqli_query($koneksi, "select KODE_COSTUM from t_transaksi where KODE_TRANSAKSI='$kode_transaksi'");
-								 $penjualan2 = mysqli_query($koneksi,"SELECT `COSTUM`,`KODE_COSTUM`,SUM(HARGA_TAMBAHAN) AS HARGA,COUNT(`KODE_COSTUM`)AS JUMLAH,QTY FROM t_transaksi WHERE KODE_TRANSAKSI='$kode_transaksi' AND HARGA_TAMBAHAN<>0 GROUP BY `KODE_COSTUM`");
+								 $penjualan2 = mysqli_query($koneksi,"SELECT `COSTUM`,`KODE_COSTUM`,SUM(HARGA_TAMBAHAN) AS HARGA,COUNT(`KODE_COSTUM`)AS JUMLAH,QTY FROM t_transaksi_khusus WHERE KODE_TRANSAKSI='$kode_transaksi' AND HARGA_TAMBAHAN<>0 GROUP BY `KODE_COSTUM`");
 								 while($data2= mysqli_fetch_array($penjualan2)){
 									$jumlah_tamp = number_format($data2['JUMLAH'],0,',','.');
 									$qtyyy_tamp = number_format($data2['QTY'],0,',','.');
@@ -259,7 +270,7 @@
 					<table width="95%" align="right">
 						<tr>
 							<td width="12%"></td>
-							<td align='left'>Total</td>
+							<td align='left'>Jumlah</td>
 							<td align='left'><?php echo $total_harga_barangtamp; ?></td>
 						</tr>
 						<tr>
@@ -270,16 +281,12 @@
 						</tr>
 						<tr>
 							<td width="12%"></td>
-							<td align='left'><b><font style="font-size:38pt"> Sisa Pembayaran</font></b></td>
-							<td align='left'><b><font style="font-size:50pt"> <?php echo $totalnyamitamp; ?></font></b></td>
-						</tr>
-						<tr align="center">
-							<td colspan='3'><hr size="20px"></td>
+							<td align='left'><b><font style="font-size:45pt"> Sisa</font></b></td>
+							<td align='left'><b><font style="font-size:45pt"> <?php echo $totalnyamitamp; ?></font></b></td>
 						</tr>
 						<tr>
-							<td width="12%"></td>
-							<td align='left'>Payment</td>
-							<td align='left'><?php echo $paym; ?></td>
+                            <td><br>
+                            </td>
 						</tr>
 						<tr>
 							<td width="12%"></td>
@@ -291,31 +298,29 @@
 							<td align='left'>Kembali</td>
 							<td align='left'><?php echo $total_kembalitamp; ?></td>
 						</tr>
+						<tr>
+							<td width="12%"></td>
+							<td align='left'>Payment</td>
+							<td align='left'><?php echo $paym; ?></td>
+						</tr>
 					</table>
 					</td>
 				</tr>
-				
+				<tr align="center">
+					<td colspan='3'><hr size="20px"></td>
+				</tr>
 				<tr>
-				<td><br></td>
+				    <td><br></td>
 				</tr>
 				<tr align='center'>
-					<td colspan="3" align="center" style="font-size: 40px;">
-					<font style="font-size:40pt"> <b>
-					<?php 					
-						$waktu1 = substr($waktux,0,10);
-						$waktu2 = substr($waktux,10,10);
-						echo $waktu1.' - '.$waktu2; ?></b></font>
+					<td colspan="3" align="center" style="font-size: 35px;">
+						<b>Terima Kasih</b>
 					</td>
 				</tr>
 				<tr align='center'>
 					<td colspan="3" align="center" style="font-size: 35px;">
 						<b><?php echo $levell.' - '.$olehhh; ?></b>
 					</td>
-				</tr>
-				<tr align='center'>
-					<th colspan='3'>
-						<img src="img\ftr.png" width='100%'>
-					</th>
 				</tr>
 			</table>
 			<?php

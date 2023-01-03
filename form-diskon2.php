@@ -11,6 +11,32 @@
       <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
       <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
       <script data-ad-client="ca-pub-5256228815542923" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>	  
+      <style>
+        table.dataTable thead .sorting:after,
+        table.dataTable thead .sorting:before,
+        table.dataTable thead .sorting_asc:after,
+        table.dataTable thead .sorting_asc:before,
+        table.dataTable thead .sorting_asc_disabled:after,
+        table.dataTable thead .sorting_asc_disabled:before,
+        table.dataTable thead .sorting_desc:after,
+        table.dataTable thead .sorting_desc:before,
+        table.dataTable thead .sorting_desc_disabled:after,
+        table.dataTable thead .sorting_desc_disabled:before {
+        bottom: .5em;
+        }
+        </style>
+        <script>
+            $(document).ready(function () {
+            $('#selectedColumn').DataTable({
+                "aaSorting": [],
+                columnDefs: [{
+                orderable: false,
+                targets: 3
+                }]
+            });
+                $('.dataTables_length').addClass('bs-select');
+            });
+            </script>
 	   <style>
         body, html {
         height: 100%;
@@ -30,22 +56,12 @@
    </head>
    <body>
    <div class="bg">
-      <?php 
-				error_reporting(0);
-				session_start();					
-				if($_SESSION['status']!="login"){
-					echo "<script>alert('Anda belum login.....');window.location.href='index?pesan=belum_login';</script>";                    
-				}
-				else if ($_SESSION['level']!="OWNER" AND $_SESSION['level']!="SPV KASIR" AND $_SESSION['level']!="KASIR"){
-					echo "<script>alert('Anda tidak memiliki akses.....');window.location.href='javascript:history.go(-1)';</script>";
-				}
-		?>
       <h1 align='center' style="background-color:#71b8e4;color:#FFFFFe">DATA DISKON</h1>
       <h3 align='center' style="background-color:#1d7bb6;color:#FFFFee">- S W E A T E R I N . M E -</h3>
       <br>
 	  
 	  
-	<table id="tabel2" align="center" width="100%" border="0" cellpadding="0" cellspacing="1">
+	<table id="tabel2"  align="center" width="100%" border="0" cellpadding="0" cellspacing="1">
 			<tr>
 				<td align="left"><a href="utama" style="color:#FFFFFe"> <button type="button" class="btn btn-info">KE MENU UTAMA</button></a></td>
 				<td rowspan="2" align="right"><a href="upload-voucher" style="color:#FFFFFe"> <button type="button" class="btn btn-primary">UPLOAD VOUCHER</button> </a></td>
@@ -57,7 +73,7 @@
 	</table>
 	  
       <br>		
-      <table id="tabel1" class="table table-striped" border="1" cellpadding="0" cellspacing="1">
+      <table id="selectedColumn" class="table table-hover table-bordered table-sm" cellspacing="0" width="100%">
          <thead align="center">
             <tr align='center' class="table-info">
                <th>NO.</th>			   
@@ -93,17 +109,8 @@
 		<tr align="center">
             <td><?php echo $no++; ?></td>
             <td><?php echo $tgl; ?></td>
-            <td><?php 
-			session_start();
-				$level = $_SESSION['level'];
-				if ($level=="KASIR"){			
-					echo "~Hubungi Manajer~";
-				}
-				else {
-					echo $kodisk;
-				}
-			?></td>     
-            <td align="left"><?php echo $notes; ?></td>      
+            <td><?php echo $kodisk; ?></td>     
+            <td><?php echo $kodisk; ?></td>     
             <td align="right"><?php echo "Rp".$nominal; ?></td>
             <td align="right"><?php echo $minimalx; ?></td>
             <td align="left"><?php echo $keterr; ?></td>  

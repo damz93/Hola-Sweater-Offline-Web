@@ -51,22 +51,27 @@
 				<td><br></td>
 			</tr>
 			<tr>
-				<td align="left"><a href="input-stok" style="color:#FFFFFe"> <button type="button" class="btn btn-primary">INPUT DATA STOK</button> </a></td>
+				<td align="left"><a href="input-stok" style="color:#FFFFFe"> <button type="button" class="btn btn-primary">INPUT DATA STOK</button> </a></td>            
 			</tr>
+         <tr>
+				<td><br></td>
+			</tr>
+
 	</table>
       <table id="tabel1" class="table table-striped" border="1" cellpadding="0" cellspacing="1">
          <thead align="center">
             <tr align='center' class="table-info">
-               <th>NO.</th>			   
-               <th>TGL INPUT</th>
-               <th>KODE BARANG</th>
-               <th>JENIS BARANG</th>			   
-               <th>WARNA</th>
-               <th>SIZE</th> 
-               <th>HARGA</th>
-               <th>QTY</th>  
-               <th>KETERANGAN</th>              
-               <th>AKSI</th>
+               <th>No.</th>			   
+               <th>Tgl Input</th>
+               <th>Penanda</th>
+               <th>Kode Barang</th>
+               <th>Jenis Barang</th>			   
+               <th>Warna</th>
+               <th>Size</th> 
+               <th>Harga</th>
+               <th>Qty</th>  
+               <th>Ket</th>              
+               <th>Aksi</th>
             </tr>
          </thead>
          <?php 
@@ -77,6 +82,7 @@
 				$tgl = $d['WAKTU'];
 				$tgl = substr($tgl,0,9);
 				$kod_bar = $d['KODE_BARANG'];
+				$penanda = $d['PENANDA'];
 				$jen_bar = $d['JENIS_BARANG'];
 				$warna = $d['WARNA'];
 				$ket = $d['KETERANGAN'];
@@ -89,6 +95,7 @@
          <tr align="center">
             <td><?php echo $no++; ?></td>
             <td align="center"><?php echo $tgl; ?></td>
+            <td align="center"><?php echo $penanda; ?></td>
             <td align="center"><?php echo $kod_bar; ?></td>
             <td align="center"><?php echo $jen_bar; ?></td>         
             <td align="center"><?php echo $warna; ?></td>         

@@ -138,18 +138,26 @@
       <div class="bg">
          <div class="main">
             <div class="main-content">
-               <div align="center" class="table-responsive"><img align="center" src="img/logo_hola.png" width="400" height="auto"><br><br>
+               <div align="center" class="table-responsive"><img align="center" src="img/logo_hola.png" width="300" height="auto"><br><br>
                   <table style="width:100%;height:100%" border="0" class="" cellpadding="2" cellspacing="2" align="center">
                      <tr style="height:25%">
-                        <td style="width:16%" valign="center" align="center">
-                           <a href="input-transaksi" title="Data Transaksi">
+                        <td style="width:10%" valign="center" align="center">
+                           <a href="input-transaksi-khusus" title="Data Transaksi Khusus">
+                              <img src="img/sales_s.png" class="responsive"style="display: block; margin: auto;">
+                              <figcaption class="figure-caption" align='center'>
+                                 <h5 style="color:#FFFFFe"><b>TRANSAKSI KHUSUS</b></h5>
+                              </figcaption>
+                           </a>
+                        </td>
+                        <td style="width:10%" valign="center" align="center">
+                           <a href="input-transaksi" title="Input Transaksi">
                               <img src="img/sales.png" class="responsive"style="display: block; margin: auto;">
                               <figcaption class="figure-caption" align='center'>
                                  <h5 style="color:#FFFFFe"><b>TRANSAKSI</b></h5>
                               </figcaption>
                            </a>
                         </td>
-						<td style="width:16%" valign="center" align="center">
+						<td style="width:10%" valign="center" align="center">
                            <a href="form-pengeluaran" title="Data Pengeluaran">
                               <img src="img/spending.png" class="responsive"style="display: block; margin: auto;">
                               <figcaption class="figure-caption" align='center'>
@@ -157,7 +165,7 @@
                               </figcaption>
                            </a>
                         </td>
-                        <td style="width:16%" valign="center" align="center">
+                        <td style="width:10%" valign="center" align="center">
                            <a href="form-stok" title="Data Stok">
                               <img src="img/product.png" class="responsive"style="display: block; margin: auto;">
                               <figcaption class="figure-caption" align='center'>
@@ -173,7 +181,7 @@
                               </figcaption>
                            </a>
                         </td>
-                        <td style="width:16%" valign="center" align="center">
+                        <td style="width:10%" valign="center" align="center">
                            <a href="form-diskon" title="Data Diskon">
                               <img src="img/discount.png" class="responsive"style="display: block; margin: auto;">
                               <figcaption class="figure-caption" align='center'>
@@ -181,7 +189,7 @@
                               </figcaption>
                            </a>
                         </td>
-                        <td style="width:16%" valign="center" align="center">
+                        <td style="width:10%" valign="center" align="center">
                            <a href="form-laporan" title="Data Report">
                               <img src="img/report.png" class="responsive"style="display: block; margin: auto;">
                               <figcaption class="figure-caption" align='center'>

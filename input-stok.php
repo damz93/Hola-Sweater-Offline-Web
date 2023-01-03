@@ -48,12 +48,21 @@
       <div class='container'>
          <a href="form-stok" style="color:#FFFFFe"> <button type="button" class="btn btn-info"> [ Kembali ke Data Stok ]</button></a><br>
          <br>
-         <form method="post" action="simpan-stok.php" onsubmit="return confirm('Yakin ingin simpan?');">
+         <form autocomplete="off" method="post" action="simpan-stok.php" onsubmit="return confirm('Yakin ingin simpan?');">
 		 <div class="table-responsive">
-            <table class="table" border="0" cellpadding="2" cellspacing="2" align=center>
+            <table class="table" border="0" style="width:75%;"cellpadding="2" cellspacing="2" align=center>
+               <tr>
+                  <th>Penanda Barang</th>
+                  <th colspan="2">
+                     <select onchange="autofocuss2()" autofocus class="form-control form-control-sm" name="penanda" id="penanda">
+                        <option value="BIASA">Biasa</option>
+                        <option value="KHUSUS">Khusus</option>
+                     </select>
+                  </th>
+               </tr>
                <tr>
                   <th>Kode Barang</th>
-                  <th colspan="2"><input class="form-control form-control-sm" placeholder="KODE BARANG" maxlength="30" type="text" name="KODE_BARANG" id="KODE_BARANG" autofocus></th>
+                  <th colspan="2"><input class="form-control form-control-sm" placeholder="KODE BARANG" maxlength="30" type="text" name="KODE_BARANG" id="KODE_BARANG" ></th>
                </tr>
                <tr>
                   <th>Jenis Barang</th>
@@ -85,6 +94,16 @@
 								</select>
 							</th>
 						</tr>
+                  
+               <tr>
+                  <th>Kena Potongan</th>
+                  <th colspan="2">
+                     <select onchange="autofocuss2()" autofocus class="form-control form-control-sm" name="kena_p" id="kena_p">
+                        <option value="YA">Ya</option>
+                        <option value="TIDAK">Tidak</option>
+                     </select>
+                  </th>
+               </tr>
                <tr align='center'>
                   <br>
                      <td colspan="2"><button type="submit" value="simpan" class="btn btn-info btn-lg btn-block">Simpan</button></th>
@@ -99,9 +118,13 @@
          <script src="js/terbilang.js"></script>
          <script>
             function autofocuss() {
+            	document.getElementById("penanda").focus();
+            }
+         </script>
+         <script>
+            function autofocuss2() {
             	document.getElementById("KODE_BARANG").focus();
             }
-             
          </script>
          <script>
             function inputTerbilang() {

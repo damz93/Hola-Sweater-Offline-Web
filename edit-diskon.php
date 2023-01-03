@@ -9,6 +9,7 @@
    $tgl_akhir =$row['TGL_SELESAI'];
    $persen = $row['PERSEN'];
    $status =   $row['STATUS'];
+   $minimal =   $row['MINIMAL'];
    $nominal=number_format($row['NOMINAL'],0,",",".");
    ?>
 <!DOCTYPE html>
@@ -64,7 +65,7 @@
             <div class="form-group">
                <div class="container">
                   <br>
-                  <table border="0" class="table" cellpadding="2" cellspacing="2" align=center>
+                  <table style="width:75%" border="0" class="table" cellpadding="2" cellspacing="2" align=center>
                      <div class="form-group">
                         <tr>
                            <th>Kode Diskon</th>
@@ -73,34 +74,17 @@
                         <tr>
                            <th>Notes</th>
                            <td colspan="3"> <input id="notes" value="<?php echo $notes;?>" autofocus  placeholder="NOTES" class="form-control form-control-sm" maxlength="30" type="text" name="NOTES">  </td>
-                        </tr>
-                        <tr>
-                           <th>Tanggal Awal</th>
-                           <td colspan="3"><input value="<?php echo $tgl_awal;?>" placeholder="TANGGAL AWAL(dd/MM/yyyy)" class="form-control form-control-sm datepicker" maxlength="30" type="text" name="TGL_AWAL">  </td>
-                        </tr>
-                        <tr>
-                           <th>Tanggal Akhir</th>
-                           <td colspan="3"><input value="<?php echo $tgl_akhir;?>" id="TGL_AKHIR"  placeholder="TANGGAL AKHIR(dd/MM/yyyy)" class="form-control form-control-sm datepicker" maxlength="30" type="text" name="TGL_AKHIR"> </td>
-                        </tr>
+                        </tr>                        
                         <tr>
                            <th width="30%">Nominal</th>
                            <td width="1%">Rp</td>
                            <td align="left" width="60%" colspan="2"><input value="<?php echo $nominal;?>" type="text" id="nominal" placeholder="0" class="form-control form-control-sm mata-uang" onkeyup="inputTerbilang();" name="NOMINAL" >
-                        </tr>
+                        </tr>                
                         <tr>
-                           <th>Persen</th>
-                           <td colspan="2"><input value="<?php echo $persen;?>" maxlength="3" size="30" type="text" id="nominal" placeholder="0" class="mata-uang form-control form-control-sm" onkeyup="inputTerbilang();" name="PERSEN" ></td>
-                           <td align="left">% </td>
+                           <th width="30%">Minimal Pembelian Sweater</th>                        
+                           <td align="left" width="60%" colspan="3"><input value="<?php echo $minimal;?>" type="text" id="minimal" placeholder="0" class="form-control form-control-sm mata-uang" onkeyup="inputTerbilang();" name="MINIMAL" >
                         </tr>
-                        <tr>
-                           <th>Status</th>
-                           <td colspan="3">
-                              <select name="STATUSX" id="STATUSX" class="form-control form-control-sm">
-                                 <option value="AKTIF" <?php if($status=="AKTIF") echo 'selected="selected"'; ?> >Aktif</option>
-                                 <option value="NON AKTIF" <?php if($status=="NON AKTIF") echo 'selected="selected"'; ?>>Non AKtif</option>
-                              </select>
-                           </td>
-                        </tr>
+                       
                         <tr align='center'>
                            <br>
                            <td colspan=4><button type="submit" value="simpan" class="btn btn-info btn-lg btn-block">Update</button></td>

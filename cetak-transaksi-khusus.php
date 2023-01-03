@@ -3,9 +3,9 @@
 	<head>
 		<head>
 			<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-			<title>Cetak Nota Transaksi - H O L A S W E A T E R</title>
+			<title>Cetak Nota Transaksi Khusus - H O L A S W E A T E R</title>
 			<link rel="shortcut icon" href="img/tokonline.png">
-			<meta http-equiv="refresh" content="5; url=input-transaksi">
+			<meta http-equiv="refresh" content="5; url=input-transaksi-khusus">
 			<meta name="viewport" content="width=device-width, initial-scale=1">
 			<link rel="stylesheet" href="css/freelancer.min.css">
 			<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
@@ -63,47 +63,48 @@
 			//$jumbayZZ = str_replace(".","",$jumbay); 
 			date_default_timezone_set('Asia/Hong_Kong');
 			$waktu_skg = date("d/m/Y");
+			$tgl_hari_ini = date("d-m-Y");
 			$jam = date("H:i:s");
-			$data_tr = mysqli_query($koneksi,"SELECT ID,KODE_TRANSAKSI FROM t_transaksi ORDER BY ID DESC LIMIT 1");
+			$data_tr = mysqli_query($koneksi,"SELECT ID,KODE_TRANSAKSI FROM t_transaksi_khusus ORDER BY ID DESC LIMIT 1");
 				 while($d = mysqli_fetch_array($data_tr)){	
-					$jumtranskX        = substr($d['KODE_TRANSAKSI'],5);			
+					$jumtranskX        = substr($d['KODE_TRANSAKSI'],1);			
 					
 				 }
 			      
 			      if ($jumtranskX == 0) {
-			      	$kode_penjualan = "TRX-0000000001";
+			      	$kode_penjualan = "0000000001";
 			      }
 			      else{
 			      	$jumtranskX++;
 					if (strlen($jumtranskX)== 1){
-			      		$kode_penjualan = "TRX-000000000".$jumtranskX;
+			      		$kode_penjualan = "000000000".$jumtranskX;
 			      	}
 			      	else if (strlen($jumtranskX)== 2){
-			      		$kode_penjualan = "TRX-00000000".$jumtranskX;
+			      		$kode_penjualan = "00000000".$jumtranskX;
 			      	}
 			      	else if (strlen($jumtranskX)== 3){
-			      		$kode_penjualan = "TRX-0000000".$jumtranskX;
+			      		$kode_penjualan = "0000000".$jumtranskX;
 			      	}
 			      	else if (strlen($jumtranskX)== 4){
-			      		$kode_penjualan = "TRX-000000".$jumtranskX;
+			      		$kode_penjualan = "000000".$jumtranskX;
 			      	}
 			      	else if (strlen($jumtranskX)== 5){
-			      		$kode_penjualan = "TRX-00000".$jumtranskX;
+			      		$kode_penjualan = "00000".$jumtranskX;
 			      	}
 			      	else if (strlen($jumtranskX)== 6){
-			      		$kode_penjualan = "TRX-0000".$jumtranskX;
+			      		$kode_penjualan = "0000".$jumtranskX;
 			      	}
 			      	else if (strlen($jumtranskX)== 7){
-			      		$kode_penjualan = "TRX-000".$jumtranskX;
+			      		$kode_penjualan = "000".$jumtranskX;
 			      	}
 			      	else if (strlen($jumtranskX)== 8){
-			      		$kode_penjualan = "TRX-00".$jumtranskX;
+			      		$kode_penjualan = "00".$jumtranskX;
 			      	}
 			      	else if (strlen($jumtranskX)== 9){
-			      		$kode_penjualan = "TRX-0".$jumtranskX;
+			      		$kode_penjualan = "0".$jumtranskX;
 			      	}
 			      	else if (strlen($jumtranskX)== 10){
-			      		$kode_penjualan = "TRX-".$jumtranskX;
+			      		$kode_penjualan = "".$jumtranskX;
 			      	}
 			      }
 			
@@ -124,18 +125,21 @@
 					<td colspan='3'>
 					<table>
 						<tr>
-							<td><font style="font-size:30pt"> Customer </font></td><td><font style="font-size:40pt"> :</font></td><td> <font style="font-size:50pt"> <?php echo $costumerx; ?></font></td>
-							
+							<td><font style="font-size:40pt"> Date </font></td><td><font style="font-size:40pt">:</font></td><td> <font style="font-size:45pt"> <?php echo $tgl_hari_ini; ?></font></td>							
 						</tr>
 						<tr>
-							<td></td><td></td><td><b> <?php echo $kode_penjualan;?></b></td>
+							<td><font style="font-size:40pt"> Kode Trx</font></td><td><font style="font-size:40pt">:</font></td><td> <font style="font-size:45pt"> <?php echo $kode_penjualan; ?></font></td>							
+						</tr>
+						<tr>
+							<td><font style="font-size:40pt"> Cust. </font></td><td><font style="font-size:40pt">:</font></td><td> <font style="font-size:45pt"> <?php echo $costumerx; ?></font></td>							
 						</tr>
 					</table>
 					<br>
 					</td>
 				</tr>
-				<tr align="left">
-					<td colspan='3'><b>Order</b></td>
+				
+				<tr align="center">
+					<td colspan='3'><hr size="20px"></td>
 				</tr>
 			<?php 
 				$no = 1;
@@ -155,7 +159,7 @@
 				$jumlah_cos=0;
 				$totpcs =0;
 				$total_diskon = 0;
-				$sql = mysqli_query($koneksi,"select * from t_transaksi_temp WHERE OLEH='".$olehyy."' order by JENIS_BARANG,WARNA ASC ");
+				$sql = mysqli_query($koneksi,"select * from t_transaksi_khusus_temp WHERE OLEH='".$olehyy."' order by JENIS_BARANG,WARNA ASC ");
 				while($data = mysqli_fetch_array($sql)){
 					$satuan = $data['HARGA'];						
 					$satuan2 = $satuan;
@@ -187,8 +191,9 @@
 					$waktux = $data['WAKTU'];
 				?>
 			<tr align="left" colspan="3" width="70%">
-					<td align='left'><?php echo $data['JENIS_BARANG']; ?><br><?php echo $data['WARNA']; ?>(<?php echo $data['SIZE_']?>)</td>
-					<td width="5%" rowspan="2" align='center'><?php echo $data['QTY']."x"; ?></td>
+            
+					<td width="10%" rowspan="2" align='left'><?php echo $data['QTY']."x"; ?></td>
+					<td align='left'><?php echo $data['JENIS_BARANG']; echo $data['SIZE_']; ?><br><?php echo $data['WARNA']; ?></td>
 					<td rowspan="2" align='right'><?php echo $total_blum_disktamp; ?></td>
 			</tr>
 			
@@ -239,7 +244,7 @@
 				$no++;
 				         	// query SQL untuk insert data			
 				//$query="INSERT INTO t_transaksi(KODE_COSTUM,COSTUM,HARGA_TAMBAHAN,POTONGAN,BAYAR,KODE_DISKON,DISKON,DISKON2,TOTAL2,KODE_TRANSAKSI,KODE_BARANG,JENIS_BARANG,SIZE_,WARNA,HARGA,QTY,TOTAL,TGL,WAKTU,OLEH,KETERANGAN)VALUES('$kod_costumm','$costumm','$harga_tamb','$potonggannn','$jumbay','$kodis','$diskon','$diskon2','$total_setelah_disk','$kode_penjualan2','$kode_barang','$jenis_barang','$sizee','$warna','$harga','$kuantitas','$total','$tgl','$waktu','$oleh','$keterangan')";
-				$query="INSERT INTO t_transaksi(KENA,QTY_DISKON,PAYMENT,COSTUMER,KODE_COSTUM,COSTUM,POTONGAN,BAYAR,KODE_DISKON,DISKON,DISKON2,TOTAL2,KODE_TRANSAKSI,KODE_BARANG,JENIS_BARANG,SIZE_,WARNA,HARGA,QTY,TOTAL,TGL,WAKTU,OLEH,KETERANGAN)VALUES('$kena','$qty_disk','$payment','$costumerx','$kod_costumm','$costumm','$potonggannn','$jumbay','$kodis','$diskon','$diskon2','$total2nya','$kode_penjualan2','$kode_barang','$jenis_barang','$sizee','$warna','$harga','$kuantitas','$total','$tgl','$waktu','$oleh','$keterangan')";
+				$query="INSERT INTO t_transaksi_khusus(KENA,QTY_DISKON,PAYMENT,COSTUMER,KODE_COSTUM,COSTUM,POTONGAN,BAYAR,KODE_DISKON,DISKON,DISKON2,TOTAL2,KODE_TRANSAKSI,KODE_BARANG,JENIS_BARANG,SIZE_,WARNA,HARGA,QTY,TOTAL,TGL,WAKTU,OLEH,KETERANGAN)VALUES('$kena','$qty_disk','$payment','$costumerx','$kod_costumm','$costumm','$potonggannn','$jumbay','$kodis','$diskon','$diskon2','$total2nya','$kode_penjualan2','$kode_barang','$jenis_barang','$sizee','$warna','$harga','$kuantitas','$total','$tgl','$waktu','$oleh','$keterangan')";
 				if (mysqli_query($koneksi, $query)) {
 				
 				}
@@ -260,7 +265,7 @@
             		
             	}
 				
-				$sql2 = "DELETE FROM t_transaksi_temp where OLEH='".$oleh."'";            
+				$sql2 = "DELETE FROM t_transaksi_khusus_temp where OLEH='".$oleh."'";            
 				    if (mysqli_query($koneksi, $sql2)) {				       
 				}
 			}
@@ -309,16 +314,17 @@
 					<td colspan='3' align='right'>Jumlah Barang</td>
 					<td align='right'><?php echo $totpcstamp; ?></td>
 				</tr>
-				<tr align="center">
-					<td colspan='3'><hr size="20px"></td>
-				</tr>
 				
 				<tr>
 					<td colspan="3">
 					<table width="95%" align="right">
+                    
+						<tr align="center">
+							<td colspan='3'><hr size="20px"></td>
+						</tr>
 						<tr>
 							<td width="12%"></td>
-							<td align='left'>Total</td>
+							<td align='left'>Jumlah</td>
 							<td align='left'><?php echo $total_harga_barangtamp; ?></td>
 						</tr>
 						<tr>
@@ -329,16 +335,13 @@
 						</tr>
 						<tr>
 							<td width="12%"></td>
-							<td align='left'><b><font style="font-size:38pt"> Sisa Pembayaran</font></b></td>
-							<td align='left'><b><font style="font-size:50pt"> <?php echo $totalnyamitamp; ?></font></b></td>
+							<td align='left'><b><font style="font-size:45pt"> Sisa</font></b></td>
+							<td align='left'><b><font style="font-size:45pt"> <?php echo $totalnyamitamp; ?></font></b></td>
 						</tr>
-						<tr align="center">
-							<td colspan='3'><hr size="20px"></td>
-						</tr>
+                        
 						<tr>
-							<td width="12%"></td>
-							<td align='left'>Payment</td>
-							<td align='left'><?php echo $payment; ?></td>
+                            <td><br>
+                            </td>
 						</tr>
 						<tr>
 							<td width="12%"></td>
@@ -350,30 +353,30 @@
 							<td align='left'>Kembali</td>
 							<td align='left'><?php echo $total_kembalitamp; ?></td>
 						</tr>
+						<tr>
+							<td width="12%"></td>
+							<td align='left'>Payment</td>
+							<td align='left'><?php echo $payment; ?></td>
+						</tr>
 					</table>
 					</td>
 				</tr>
+                
+				<tr align="center">
+					<td colspan='3'><hr size="20px"></td>
+				</tr>
 				<tr>
-				<td><br></td>
+				    <td><br></td>
 				</tr>
 				<tr align='center'>
-					<td colspan="3" align="center" style="font-size: 40px;">
-					<font style="font-size:40pt"> <b>
-					<?php 					
-						$waktu1 = substr($waktux,0,10);
-						$waktu2 = substr($waktux,10,10);
-						echo $waktu1.' - '.$waktu2; ?></b></font>
+					<td colspan="3" align="center" style="font-size: 35px;">
+						<b>Terima Kasih</b>
 					</td>
 				</tr>
 				<tr align='center'>
 					<td colspan="3" align="center" style="font-size: 35px;">
 						<b><?php echo $levell.' - '.$olehhh; ?></b>
 					</td>
-				</tr>
-				<tr align='center'>
-					<th colspan='3'>
-						<img src="img\ftr.png" width='100%'>
-					</th>
 				</tr>
 		</table>
 		</font>
